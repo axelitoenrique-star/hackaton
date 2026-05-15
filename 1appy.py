@@ -12,7 +12,11 @@ import streamlit.components.v1 as components
 from twilio.rest import Client
 
 # --- 1. CONFIGURACIÓN DE LA PÁGINA ---
-st.set_page_config(page_title="Enjambre VRA | Plataforma Integral", page_icon="🚁", layout="wide")
+st.set_page_config(
+    page_title="Enjambre VRA | Plataforma Integral",
+    page_icon="🚁",
+    layout="wide"
+)
 
 # --- FUNCIÓN PARA CARGAR IMAGEN DE FONDO ---
 def cargar_imagen_base64(ruta_imagen):
@@ -22,12 +26,49 @@ def cargar_imagen_base64(ruta_imagen):
     except FileNotFoundError:
         return None
 
+
+# --- ESTILOS BASE ORIGINALES ---
 st.markdown("""
     <style>
-    .sensor-verde { background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; border-left: 5px solid #28a745; text-align: center; margin-bottom: 10px;}
-    .sensor-amarillo { background-color: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; border-left: 5px solid #ffc107; text-align: center; margin-bottom: 10px;}
-    .sensor-rojo { background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; border-left: 5px solid #dc3545; text-align: center; font-weight: bold; margin-bottom: 10px;}
-    .horario-auto { background-color: #e2e3e5; color: #383d41; padding: 10px; border-radius: 5px; border-left: 5px solid #6c757d; margin-bottom: 5px;}
+    .sensor-verde {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 5px solid #28a745;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .sensor-amarillo {
+        background-color: #fff3cd;
+        color: #856404;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 5px solid #ffc107;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .sensor-rojo {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 5px solid #dc3545;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .horario-auto {
+        background-color: #e2e3e5;
+        color: #383d41;
+        padding: 10px;
+        border-radius: 5px;
+        border-left: 5px solid #6c757d;
+        margin-bottom: 5px;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -257,34 +298,36 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- CURSOR PERSONALIZADO: HORMIGA REALISTA ANIMADA ---
+# --- CURSOR PERSONALIZADO: HORMIGA 3D / PREMIUM ---
 def activar_cursor_hormiga():
     components.html(
         """
         <script>
         const doc = window.parent.document;
 
-        if (!doc.getElementById("cursor-hormiga-style")) {
+        if (!doc.getElementById("cursor-hormiga-premium-style")) {
             const style = doc.createElement("style");
-            style.id = "cursor-hormiga-style";
+            style.id = "cursor-hormiga-premium-style";
             style.innerHTML = `
                 body, body * {
                     cursor: none !important;
                 }
 
-                #cursor-hormiga-realista {
+                #cursor-hormiga-premium {
                     position: fixed;
-                    width: 58px;
-                    height: 58px;
+                    width: 64px;
+                    height: 64px;
                     pointer-events: none;
                     z-index: 999999999;
                     transform: translate(-50%, -50%) rotate(0deg) scale(1);
                     transform-origin: center center;
                     transition: transform 0.05s linear;
-                    filter: drop-shadow(0 3px 4px rgba(0,0,0,0.35));
+                    filter:
+                        drop-shadow(0 4px 4px rgba(0,0,0,0.30))
+                        drop-shadow(0 8px 12px rgba(0,0,0,0.20));
                 }
 
-                #cursor-hormiga-realista svg {
+                #cursor-hormiga-premium svg {
                     width: 100%;
                     height: 100%;
                     overflow: visible;
@@ -297,195 +340,195 @@ def activar_cursor_hormiga():
                     transform-origin: center;
                 }
 
-                .ant-leg-left-1 {
-                    animation: legLeftA 0.22s infinite alternate ease-in-out;
-                }
+                .ant-leg-left-1 { animation: legLeftA 0.20s infinite alternate ease-in-out; }
+                .ant-leg-left-2 { animation: legLeftB 0.22s infinite alternate ease-in-out; }
+                .ant-leg-left-3 { animation: legLeftA 0.18s infinite alternate ease-in-out; animation-delay: 0.05s; }
 
-                .ant-leg-left-2 {
-                    animation: legLeftB 0.24s infinite alternate ease-in-out;
-                }
+                .ant-leg-right-1 { animation: legRightA 0.20s infinite alternate ease-in-out; }
+                .ant-leg-right-2 { animation: legRightB 0.22s infinite alternate ease-in-out; }
+                .ant-leg-right-3 { animation: legRightA 0.18s infinite alternate ease-in-out; animation-delay: 0.05s; }
 
-                .ant-leg-left-3 {
-                    animation: legLeftA 0.20s infinite alternate ease-in-out;
-                    animation-delay: 0.05s;
-                }
-
-                .ant-leg-right-1 {
-                    animation: legRightA 0.22s infinite alternate ease-in-out;
-                }
-
-                .ant-leg-right-2 {
-                    animation: legRightB 0.24s infinite alternate ease-in-out;
-                }
-
-                .ant-leg-right-3 {
-                    animation: legRightA 0.20s infinite alternate ease-in-out;
-                    animation-delay: 0.05s;
-                }
-
-                .ant-antenna-left {
-                    animation: antennaLeft 0.45s infinite alternate ease-in-out;
-                }
-
-                .ant-antenna-right {
-                    animation: antennaRight 0.45s infinite alternate ease-in-out;
-                }
+                .ant-antenna-left { animation: antennaLeft 0.40s infinite alternate ease-in-out; }
+                .ant-antenna-right { animation: antennaRight 0.40s infinite alternate ease-in-out; }
 
                 @keyframes legLeftA {
-                    from { transform: rotate(-10deg) translateY(0px); }
-                    to   { transform: rotate(16deg) translateY(1px); }
+                    from { transform: rotate(-9deg) translateY(0px); }
+                    to   { transform: rotate(17deg) translateY(1px); }
                 }
 
                 @keyframes legLeftB {
                     from { transform: rotate(8deg) translateY(0px); }
-                    to   { transform: rotate(-15deg) translateY(1px); }
+                    to   { transform: rotate(-16deg) translateY(1px); }
                 }
 
                 @keyframes legRightA {
-                    from { transform: rotate(10deg) translateY(0px); }
-                    to   { transform: rotate(-16deg) translateY(1px); }
+                    from { transform: rotate(9deg) translateY(0px); }
+                    to   { transform: rotate(-17deg) translateY(1px); }
                 }
 
                 @keyframes legRightB {
                     from { transform: rotate(-8deg) translateY(0px); }
-                    to   { transform: rotate(15deg) translateY(1px); }
+                    to   { transform: rotate(16deg) translateY(1px); }
                 }
 
                 @keyframes antennaLeft {
                     from { transform: rotate(-10deg); }
-                    to   { transform: rotate(12deg); }
+                    to   { transform: rotate(13deg); }
                 }
 
                 @keyframes antennaRight {
                     from { transform: rotate(10deg); }
-                    to   { transform: rotate(-12deg); }
+                    to   { transform: rotate(-13deg); }
                 }
             `;
             doc.head.appendChild(style);
         }
 
-        const oldAnt = doc.getElementById("cursor-hormiga");
-        if (oldAnt) {
-            oldAnt.remove();
-        }
+        const oldAnt1 = doc.getElementById("cursor-hormiga");
+        if (oldAnt1) oldAnt1.remove();
 
-        if (!doc.getElementById("cursor-hormiga-realista")) {
+        const oldAnt2 = doc.getElementById("cursor-hormiga-realista");
+        if (oldAnt2) oldAnt2.remove();
+
+        if (!doc.getElementById("cursor-hormiga-premium")) {
             const ant = doc.createElement("div");
-            ant.id = "cursor-hormiga-realista";
+            ant.id = "cursor-hormiga-premium";
             ant.innerHTML = `
-                <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="antBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#2b1c14"/>
-                            <stop offset="50%" stop-color="#1b120d"/>
-                            <stop offset="100%" stop-color="#090807"/>
-                        </linearGradient>
+                        <radialGradient id="abdomenGrad" cx="35%" cy="25%" r="75%">
+                            <stop offset="0%" stop-color="#5e4637"/>
+                            <stop offset="28%" stop-color="#3a2a21"/>
+                            <stop offset="65%" stop-color="#1a1310"/>
+                            <stop offset="100%" stop-color="#070606"/>
+                        </radialGradient>
 
-                        <linearGradient id="antHeadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#221712"/>
-                            <stop offset="100%" stop-color="#080707"/>
-                        </linearGradient>
+                        <radialGradient id="thoraxGrad" cx="35%" cy="25%" r="75%">
+                            <stop offset="0%" stop-color="#564034"/>
+                            <stop offset="30%" stop-color="#32241d"/>
+                            <stop offset="70%" stop-color="#16100d"/>
+                            <stop offset="100%" stop-color="#060505"/>
+                        </radialGradient>
 
-                        <radialGradient id="antShine" cx="35%" cy="25%" r="65%">
-                            <stop offset="0%" stop-color="rgba(255,255,255,0.18)"/>
-                            <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+                        <radialGradient id="headGrad" cx="35%" cy="25%" r="75%">
+                            <stop offset="0%" stop-color="#4d382d"/>
+                            <stop offset="35%" stop-color="#2b1e18"/>
+                            <stop offset="75%" stop-color="#120d0b"/>
+                            <stop offset="100%" stop-color="#050404"/>
+                        </radialGradient>
+
+                        <radialGradient id="shineStrong" cx="30%" cy="25%" r="60%">
+                            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.30"/>
+                            <stop offset="35%" stop-color="#ffffff" stop-opacity="0.12"/>
+                            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                        </radialGradient>
+
+                        <radialGradient id="shineSoft" cx="35%" cy="30%" r="70%">
+                            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.16"/>
+                            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
                         </radialGradient>
                     </defs>
 
-                    <!-- Patas izquierdas -->
-                    <g class="ant-leg-left-1" stroke="#120d0a" stroke-width="4.3" stroke-linecap="round" fill="none">
-                        <path d="M46 48 C31 36, 22 31, 13 28" />
-                        <path d="M43 50 C28 47, 18 47, 10 48" />
+                    <!-- sombra base -->
+                    <ellipse cx="58" cy="95" rx="40" ry="10" fill="#000000" opacity="0.15"/>
+
+                    <!-- patas izquierdas -->
+                    <g class="ant-leg-left-1" stroke="#120d0a" stroke-width="5" stroke-linecap="round" fill="none">
+                        <path d="M52 53 C38 39, 28 32, 18 28" />
+                        <path d="M48 57 C32 51, 20 50, 10 49" />
                     </g>
 
-                    <g class="ant-leg-left-2" stroke="#120d0a" stroke-width="4.3" stroke-linecap="round" fill="none">
-                        <path d="M48 61 C32 64, 22 67, 12 72" />
+                    <g class="ant-leg-left-2" stroke="#120d0a" stroke-width="5" stroke-linecap="round" fill="none">
+                        <path d="M54 71 C38 73, 24 77, 12 83" />
                     </g>
 
-                    <g class="ant-leg-left-3" stroke="#120d0a" stroke-width="4.3" stroke-linecap="round" fill="none">
-                        <path d="M53 73 C39 82, 28 87, 18 93" />
+                    <g class="ant-leg-left-3" stroke="#120d0a" stroke-width="5" stroke-linecap="round" fill="none">
+                        <path d="M62 87 C45 94, 31 102, 20 111" />
                     </g>
 
-                    <!-- Patas derechas -->
-                    <g class="ant-leg-right-1" stroke="#120d0a" stroke-width="4.3" stroke-linecap="round" fill="none">
-                        <path d="M73 47 C89 35, 98 30, 107 27" />
-                        <path d="M76 50 C91 46, 101 46, 110 47" />
+                    <!-- patas derechas -->
+                    <g class="ant-leg-right-1" stroke="#120d0a" stroke-width="5" stroke-linecap="round" fill="none">
+                        <path d="M83 53 C98 39, 109 31, 121 27" />
+                        <path d="M87 57 C103 51, 115 50, 128 49" />
                     </g>
 
-                    <g class="ant-leg-right-2" stroke="#120d0a" stroke-width="4.3" stroke-linecap="round" fill="none">
-                        <path d="M72 61 C88 65, 98 68, 108 72" />
+                    <g class="ant-leg-right-2" stroke="#120d0a" stroke-width="5" stroke-linecap="round" fill="none">
+                        <path d="M82 71 C99 74, 112 78, 124 84" />
                     </g>
 
-                    <g class="ant-leg-right-3" stroke="#120d0a" stroke-width="4.3" stroke-linecap="round" fill="none">
-                        <path d="M67 73 C82 82, 93 87, 103 94" />
+                    <g class="ant-leg-right-3" stroke="#120d0a" stroke-width="5" stroke-linecap="round" fill="none">
+                        <path d="M75 87 C93 95, 106 102, 119 112" />
                     </g>
 
-                    <!-- Antenas -->
-                    <g class="ant-antenna-left" stroke="#120d0a" stroke-width="3.2" stroke-linecap="round" fill="none">
-                        <path d="M83 44 C95 34, 102 26, 106 16" />
+                    <!-- antenas -->
+                    <g class="ant-antenna-left" stroke="#120d0a" stroke-width="3.4" stroke-linecap="round" fill="none">
+                        <path d="M94 45 C107 32, 115 21, 120 9" />
                     </g>
 
-                    <g class="ant-antenna-right" stroke="#120d0a" stroke-width="3.2" stroke-linecap="round" fill="none">
-                        <path d="M88 49 C101 43, 109 38, 115 30" />
+                    <g class="ant-antenna-right" stroke="#120d0a" stroke-width="3.4" stroke-linecap="round" fill="none">
+                        <path d="M99 50 C113 43, 123 35, 131 25" />
                     </g>
 
-                    <!-- Abdomen -->
-                    <ellipse cx="36" cy="58" rx="18" ry="22" fill="url(#antBodyGrad)" />
-                    <ellipse cx="32" cy="50" rx="7" ry="10" fill="url(#antShine)" />
+                    <!-- abdomen -->
+                    <ellipse cx="40" cy="68" rx="22" ry="28" fill="url(#abdomenGrad)" />
+                    <ellipse cx="35" cy="57" rx="10" ry="13" fill="url(#shineStrong)" />
+                    <ellipse cx="42" cy="72" rx="16" ry="21" fill="#000000" opacity="0.08"/>
 
-                    <!-- Tórax -->
-                    <ellipse cx="60" cy="58" rx="15" ry="17" fill="url(#antBodyGrad)" />
-                    <ellipse cx="56" cy="52" rx="5" ry="7" fill="url(#antShine)" />
+                    <!-- tórax -->
+                    <ellipse cx="70" cy="67" rx="18" ry="21" fill="url(#thoraxGrad)" />
+                    <ellipse cx="65" cy="58" rx="8" ry="10" fill="url(#shineSoft)" />
+                    <ellipse cx="70" cy="68" rx="13" ry="16" fill="#000000" opacity="0.08"/>
 
-                    <!-- Cabeza -->
-                    <ellipse cx="84" cy="50" rx="12" ry="11" fill="url(#antHeadGrad)" />
-                    <ellipse cx="80" cy="46" rx="4" ry="5" fill="url(#antShine)" />
+                    <!-- cabeza -->
+                    <ellipse cx="98" cy="56" rx="15" ry="14" fill="url(#headGrad)" />
+                    <ellipse cx="93" cy="49" rx="6" ry="6" fill="url(#shineSoft)" />
 
-                    <!-- Mandíbulas -->
-                    <path d="M95 48 C101 46, 105 44, 108 41" stroke="#120d0a" stroke-width="2.4" stroke-linecap="round" fill="none" />
-                    <path d="M95 52 C101 54, 105 56, 108 59" stroke="#120d0a" stroke-width="2.4" stroke-linecap="round" fill="none" />
+                    <!-- mandíbulas -->
+                    <path d="M110 54 C117 51, 122 48, 126 44" stroke="#120d0a" stroke-width="2.6" stroke-linecap="round" fill="none" />
+                    <path d="M110 58 C117 61, 122 64, 126 68" stroke="#120d0a" stroke-width="2.6" stroke-linecap="round" fill="none" />
 
-                    <!-- Uniones -->
-                    <path d="M50 58 C53 56, 56 56, 59 58" stroke="#0b0908" stroke-width="3" stroke-linecap="round" />
-                    <path d="M72 55 C75 52, 78 51, 82 50" stroke="#0b0908" stroke-width="3" stroke-linecap="round" />
+                    <!-- uniones -->
+                    <path d="M55 68 C58 64, 63 63, 67 65" stroke="#0b0908" stroke-width="3.4" stroke-linecap="round" />
+                    <path d="M83 62 C87 59, 91 57, 95 56" stroke="#0b0908" stroke-width="3.4" stroke-linecap="round" />
                 </svg>
             `;
             doc.body.appendChild(ant);
         }
 
-        const ant = doc.getElementById("cursor-hormiga-realista");
+        const ant = doc.getElementById("cursor-hormiga-premium");
 
-        let prevX = 0;
-        let prevY = 0;
-        let currentScale = 1;
+        if (!doc.body.dataset.antCursorPremiumBound) {
+            let prevX = 0;
+            let prevY = 0;
+            let currentScale = 1;
 
-        doc.addEventListener("mousemove", function(e) {
-            const dx = e.clientX - prevX;
-            const dy = e.clientY - prevY;
+            doc.addEventListener("mousemove", function(e) {
+                const dx = e.clientX - prevX;
+                const dy = e.clientY - prevY;
 
-            let angle = 0;
+                let angle = 0;
+                if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
+                    angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                }
 
-            if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
-                angle = Math.atan2(dy, dx) * 180 / Math.PI;
-            }
+                ant.style.left = e.clientX + "px";
+                ant.style.top = e.clientY + "px";
+                ant.style.transform = `translate(-50%, -50%) rotate(${angle}deg) scale(${currentScale})`;
 
-            ant.style.left = e.clientX + "px";
-            ant.style.top = e.clientY + "px";
-            ant.style.transform = `translate(-50%, -50%) rotate(${angle}deg) scale(${currentScale})`;
+                prevX = e.clientX;
+                prevY = e.clientY;
+            });
 
-            prevX = e.clientX;
-            prevY = e.clientY;
-        });
+            doc.addEventListener("mousedown", function() {
+                currentScale = 0.88;
+            });
 
-        doc.addEventListener("mousedown", function() {
-            currentScale = 0.88;
-            ant.style.transform = ant.style.transform.replace(/scale\\([^)]*\\)/, `scale(${currentScale})`);
-        });
+            doc.addEventListener("mouseup", function() {
+                currentScale = 1;
+            });
 
-        doc.addEventListener("mouseup", function() {
-            currentScale = 1;
-            ant.style.transform = ant.style.transform.replace(/scale\\([^)]*\\)/, `scale(${currentScale})`);
-        });
+            doc.body.dataset.antCursorPremiumBound = "true";
+        }
         </script>
         """,
         height=0,
@@ -495,23 +538,55 @@ def activar_cursor_hormiga():
 activar_cursor_hormiga()
 
 # --- MEMORIA DEL SISTEMA ---
-if 'paso' not in st.session_state: st.session_state.paso = 'login'
-if 'usuario' not in st.session_state: st.session_state.usuario = {}
-if 'parcela_area' not in st.session_state: st.session_state.parcela_area = 0
-if 'cultivos_asignados' not in st.session_state: st.session_state.cultivos_asignados = {}
-if 'registro_diario' not in st.session_state: st.session_state.registro_diario = []
-if 'poligono_coords' not in st.session_state: st.session_state.poligono_coords = None
-if 'centro_mapa' not in st.session_state: st.session_state.centro_mapa = [-33.456, -70.650]
-if 'mapa_buscador_inicial' not in st.session_state: st.session_state.mapa_buscador_inicial = [-33.456, -70.650]
-if 'clima_real' not in st.session_state: st.session_state.clima_real = {"temp": 0, "hum": 0, "viento": 0}
-if 'total_litros_hoy' not in st.session_state: st.session_state.total_litros_hoy = 0
+if 'paso' not in st.session_state:
+    st.session_state.paso = 'login'
 
-DB_CULTIVOS = ["Cerezas", "Uva Vinífera", "Paltos", "Nogales", "Maíz", "Trigo", "Arándanos"]
+if 'usuario' not in st.session_state:
+    st.session_state.usuario = {}
 
-# --- 🚀 FUNCIÓN DE TWILIO ---
+if 'parcela_area' not in st.session_state:
+    st.session_state.parcela_area = 0
+
+if 'cultivos_asignados' not in st.session_state:
+    st.session_state.cultivos_asignados = {}
+
+if 'registro_diario' not in st.session_state:
+    st.session_state.registro_diario = []
+
+if 'poligono_coords' not in st.session_state:
+    st.session_state.poligono_coords = None
+
+if 'centro_mapa' not in st.session_state:
+    st.session_state.centro_mapa = [-33.456, -70.650]
+
+if 'mapa_buscador_inicial' not in st.session_state:
+    st.session_state.mapa_buscador_inicial = [-33.456, -70.650]
+
+if 'clima_real' not in st.session_state:
+    st.session_state.clima_real = {"temp": 0, "hum": 0, "viento": 0}
+
+if 'total_litros_hoy' not in st.session_state:
+    st.session_state.total_litros_hoy = 0
+
+DB_CULTIVOS = [
+    "Cerezas",
+    "Uva Vinífera",
+    "Paltos",
+    "Nogales",
+    "Maíz",
+    "Trigo",
+    "Arándanos"
+]
+
+# --- FUNCIÓN DE TWILIO ---
 def enviar_whatsapp_twilio(mensaje, telefono_destino):
     try:
-        required_secrets = ["TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_PHONE"]
+        required_secrets = [
+            "TWILIO_ACCOUNT_SID",
+            "TWILIO_AUTH_TOKEN",
+            "TWILIO_PHONE"
+        ]
+
         faltantes = [secret for secret in required_secrets if secret not in st.secrets]
 
         if faltantes:
@@ -522,8 +597,13 @@ def enviar_whatsapp_twilio(mensaje, telefono_destino):
         twilio_phone = st.secrets["TWILIO_PHONE"]
 
         client = Client(account_sid, auth_token)
-        message = client.messages.create(body=mensaje, from_=twilio_phone, to=f"whatsapp:+{telefono_destino}")
+        message = client.messages.create(
+            body=mensaje,
+            from_=twilio_phone,
+            to=f"whatsapp:+{telefono_destino}"
+        )
         return True, message.sid
+
     except Exception as e:
         return False, str(e)
 
@@ -533,8 +613,10 @@ def buscar_ubicacion(direccion):
         url = f"https://nominatim.openstreetmap.org/search?q={urllib.parse.quote(direccion)}&format=json&limit=1"
         headers = {'User-Agent': 'EnjambreVRADemo/1.0'}
         response = requests.get(url, headers=headers).json()
-        if response: return [float(response[0]['lat']), float(response[0]['lon'])]
-    except: pass
+        if response:
+            return [float(response[0]['lat']), float(response[0]['lon'])]
+    except:
+        pass
     return None
 
 def obtener_clima_real(lat, lon):
@@ -545,39 +627,58 @@ def obtener_clima_real(lat, lon):
         viento = respuesta["current_weather"]["windspeed"]
         humedad = respuesta["hourly"]["relative_humidity_2m"][0]
         return {"temp": temp, "hum": humedad, "viento": viento}
-    except: return {"temp": 13.8, "hum": 73, "viento": 1.7}
+    except:
+        return {"temp": 13.8, "hum": 73, "viento": 1.7}
 
 def calcular_ruta_patron(coords_zona, patron, lat_base, lon_base):
-    if not coords_zona: return []
+    if not coords_zona:
+        return []
+
     c_lat = sum(p[0] for p in coords_zona) / len(coords_zona)
     c_lon = sum(p[1] for p in coords_zona) / len(coords_zona)
-    ruta = [[lat_base, lon_base], [c_lat, c_lon]] 
+
+    ruta = [[lat_base, lon_base], [c_lat, c_lon]]
+
     if patron == "Perimetral (Bordes)":
         ruta.extend(coords_zona)
-        ruta.append(coords_zona[0]) 
+        ruta.append(coords_zona[0])
+
     elif patron == "Zig-Zag (Cobertura Total)":
         lats = [p[0] for p in coords_zona]
         max_lat, min_lat = max(lats), min(lats)
-        paso_lat = (max_lat - min_lat) / 6 
+        paso_lat = (max_lat - min_lat) / 6
         poly = coords_zona + [coords_zona[0]]
+
         for i in range(1, 6):
             lat_actual = max_lat - (i * paso_lat)
             intersecciones = []
-            for j in range(len(poly)-1):
-                p1, p2 = poly[j], poly[j+1]
+
+            for j in range(len(poly) - 1):
+                p1, p2 = poly[j], poly[j + 1]
                 if (p1[0] <= lat_actual < p2[0]) or (p2[0] <= lat_actual < p1[0]):
-                    if p2[0] != p1[0]: 
+                    if p2[0] != p1[0]:
                         lon_int = p1[1] + (lat_actual - p1[0]) * (p2[1] - p1[1]) / (p2[0] - p1[0])
                         intersecciones.append(lon_int)
+
             intersecciones.sort()
+
             if len(intersecciones) >= 2:
                 lon_start, lon_end = intersecciones[0], intersecciones[-1]
-                if i % 2 == 0: ruta.extend([[lat_actual, lon_start], [lat_actual, lon_end]])
-                else: ruta.extend([[lat_actual, lon_end], [lat_actual, lon_start]])
+                if i % 2 == 0:
+                    ruta.extend([[lat_actual, lon_start], [lat_actual, lon_end]])
+                else:
+                    ruta.extend([[lat_actual, lon_end], [lat_actual, lon_start]])
+
     elif patron == "Espiral (Foco Central)":
         for i in range(1, 6):
             r = (0.0008 / 5) * i
-            ruta.extend([[c_lat + r, c_lon], [c_lat, c_lon + r], [c_lat - r, c_lon], [c_lat, c_lon - r]])
+            ruta.extend([
+                [c_lat + r, c_lon],
+                [c_lat, c_lon + r],
+                [c_lat - r, c_lon],
+                [c_lat, c_lon - r]
+            ])
+
     ruta.append([lat_base, lon_base])
     return ruta
 
@@ -586,17 +687,26 @@ def calcular_ruta_patron(coords_zona, patron, lat_base, lon_base):
 # ==========================================
 if st.session_state.paso == 'login':
     col1, col2, col3 = st.columns([1, 2, 1])
+
     with col2:
         st.title("🌱 Enjambre VRA")
         st.subheader("Acceso Administrativo")
+
         with st.form("registro_form"):
             nombre = st.text_input("Nombre Completo")
             telefono = st.text_input("Teléfono WhatsApp (Ej: 56912345678)")
-            submit = st.form_submit_button("Ingresar al Sistema", type="primary", use_container_width=True)
-            
+            submit = st.form_submit_button(
+                "Ingresar al Sistema",
+                type="primary",
+                use_container_width=True
+            )
+
             if submit and nombre and telefono:
                 tel_limpio = ''.join(filter(str.isdigit, telefono))
-                st.session_state.usuario = {'nombre': nombre, 'telefono': tel_limpio}
+                st.session_state.usuario = {
+                    'nombre': nombre,
+                    'telefono': tel_limpio
+                }
                 st.session_state.paso = 'onboarding_mapa'
                 st.rerun()
 
@@ -605,10 +715,10 @@ if st.session_state.paso == 'login':
 # ==========================================
 elif st.session_state.paso == 'onboarding_mapa':
     st.header(f"Bienvenido {st.session_state.usuario.get('nombre', '')} - Delimitación Satelital")
-    
+
     st.write("🔍 **Paso 1:** Ingrese las coordenadas (Latitud y Longitud) de su terreno para acercar el satélite.")
     col_lat, col_lon, col_btn = st.columns([2, 2, 1])
-    
+
     with col_lat:
         lat_busqueda = st.number_input("Latitud:", value=-33.45600, format="%.5f")
     with col_lon:
@@ -620,27 +730,47 @@ elif st.session_state.paso == 'onboarding_mapa':
             st.rerun()
 
     st.write("📍 **Paso 2:** Utilice la herramienta de polígono ⬠ para dibujar las fronteras de su parcela.")
-    
-    mapa_dibujo = folium.Map(location=st.session_state.mapa_buscador_inicial, zoom_start=15, tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr="Esri")
-    draw = plugins.Draw(export=True, position='topleft', draw_options={'polyline':False, 'marker':False, 'circle':False})
+
+    mapa_dibujo = folium.Map(
+        location=st.session_state.mapa_buscador_inicial,
+        zoom_start=15,
+        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        attr="Esri"
+    )
+
+    draw = plugins.Draw(
+        export=True,
+        position='topleft',
+        draw_options={'polyline': False, 'marker': False, 'circle': False}
+    )
     draw.add_to(mapa_dibujo)
+
     mapa_data = st_folium(mapa_dibujo, width=1000, height=400, key="dibujo_inicial")
-    
+
     st.write("📏 **Paso 3:** Ingrese el área total de la zona (Límite máximo).")
-    area_ingresada = st.number_input("Área total del predio (m²):", min_value=100, max_value=1000000, value=5000, step=100)
-    
+    area_ingresada = st.number_input(
+        "Área total del predio (m²):",
+        min_value=100,
+        max_value=1000000,
+        value=5000,
+        step=100
+    )
+
     if st.button("Confirmar Terreno y Continuar ➡️", type="primary"):
         st.session_state.parcela_area = area_ingresada
         lat_clima, lon_clima = st.session_state.mapa_buscador_inicial[0], st.session_state.mapa_buscador_inicial[1]
-        
+
         if mapa_data and mapa_data.get("all_drawings"):
             dibujo = mapa_data["all_drawings"][0]
             st.session_state.poligono_coords = dibujo["geometry"]["coordinates"][0]
             coords_formateadas = [[p[1], p[0]] for p in st.session_state.poligono_coords]
             pts_unicos = coords_formateadas[:-1] if coords_formateadas[0] == coords_formateadas[-1] else coords_formateadas
-            st.session_state.centro_mapa = [sum(p[0] for p in pts_unicos) / len(pts_unicos), sum(p[1] for p in pts_unicos) / len(pts_unicos)]
+            st.session_state.centro_mapa = [
+                sum(p[0] for p in pts_unicos) / len(pts_unicos),
+                sum(p[1] for p in pts_unicos) / len(pts_unicos)
+            ]
             lon_clima, lat_clima = st.session_state.poligono_coords[0][0], st.session_state.poligono_coords[0][1]
-            
+
         st.session_state.clima_real = obtener_clima_real(lat_clima, lon_clima)
         st.session_state.paso = 'onboarding_cultivos'
         st.rerun()
@@ -652,18 +782,25 @@ elif st.session_state.paso == 'onboarding_cultivos':
     st.header("🌾 Distribución de Plantaciones")
     st.write(f"Usted cuenta con un límite total de **{st.session_state.parcela_area} m²** registrados.")
     cultivos_seleccionados = st.multiselect("Seleccione cultivos presentes:", DB_CULTIVOS)
-    
+
     if cultivos_seleccionados:
         area_asignada_total = 0
         asignaciones = {}
+
         for cultivo in cultivos_seleccionados:
-            m2 = st.number_input(f"Asignar m² para {cultivo}:", min_value=0, max_value=st.session_state.parcela_area, value=0, step=100)
+            m2 = st.number_input(
+                f"Asignar m² para {cultivo}:",
+                min_value=0,
+                max_value=st.session_state.parcela_area,
+                value=0,
+                step=100
+            )
             asignaciones[cultivo] = m2
             area_asignada_total += m2
-        
+
         st.progress(min(area_asignada_total / st.session_state.parcela_area, 1.0))
         st.write(f"Espacio utilizado: **{area_asignada_total} m²** de **{st.session_state.parcela_area} m²**")
-        
+
         if area_asignada_total > st.session_state.parcela_area:
             st.error("❌ ERROR: Has superado el límite de tu parcela.")
         elif area_asignada_total == 0:
@@ -679,14 +816,14 @@ elif st.session_state.paso == 'onboarding_cultivos':
 # ==========================================
 elif st.session_state.paso == 'dashboard':
     st.title(f"📊 Dashboard Enjambre VRA | Admin: {st.session_state.usuario.get('nombre', '')}")
-    
+
     zonas_dict = {}
     if st.session_state.poligono_coords:
         coords_formateadas = [[p[1], p[0]] for p in st.session_state.poligono_coords]
         pts = coords_formateadas[:-1] if coords_formateadas[0] == coords_formateadas[-1] else coords_formateadas
         n = len(pts)
         zonas_dict["Toda la Parcela"] = coords_formateadas
-        
+
         if n >= 3:
             c_lat, c_lon = st.session_state.centro_mapa
             centroide = [c_lat, c_lon]
@@ -701,92 +838,156 @@ elif st.session_state.paso == 'dashboard':
         st.markdown('<div class="horario-auto">🧪 <b>08:00 AM</b> - Aplicación Vitaminas</div>', unsafe_allow_html=True)
         st.markdown('<div class="horario-auto">🛡️ <b>06:00 PM</b> - Control Antiplagas</div>', unsafe_allow_html=True)
 
-    tab1, tab2, tab3 = st.tabs(["🌱 1. Sensores y Suelo", "🚁 2. Logística Dron", "📈 3. Reporte Diario y WhatsApp"])
-    
+    tab1, tab2, tab3 = st.tabs([
+        "🌱 1. Sensores y Suelo",
+        "🚁 2. Logística Dron",
+        "📈 3. Reporte Diario y WhatsApp"
+    ])
+
     # ---------------- PESTAÑA 1: SENSORES ----------------
     with tab1:
         clima_cols = st.columns(4)
-        temp_real, hum_real, viento_real = st.session_state.clima_real["temp"], st.session_state.clima_real["hum"], st.session_state.clima_real["viento"]
-        
+        temp_real = st.session_state.clima_real["temp"]
+        hum_real = st.session_state.clima_real["hum"]
+        viento_real = st.session_state.clima_real["viento"]
+
         clima_cols[0].metric("Temp. Zona Seleccionada", f"{temp_real}°C", "↑ Sensory Data")
         clima_cols[1].metric("Humedad Ambiental", f"{hum_real}%", "↑ IoT")
         clima_cols[2].metric("Velocidad de Viento", f"{viento_real} km/h", "↑ Drone Safe" if viento_real < 25 else "↓ Riesgo Vuelo")
         clima_cols[3].metric("Radiación / Evaporación", "Alta" if temp_real > 26 else "Normal", "↓ Riesgo Foliar" if temp_real > 26 else "↑ Óptimo")
+
         st.markdown("---")
-        
+
         nombres_cultivos = list(st.session_state.cultivos_asignados.keys())
         zonas_cols = st.columns(3)
+
         if len(nombres_cultivos) > 0:
-            with zonas_cols[0]: st.markdown(f'<div class="sensor-verde"><b>Sector A: {nombres_cultivos[0]}</b><br>Área: {st.session_state.cultivos_asignados[nombres_cultivos[0]]} m²<br>Humedad Suelo: 68%<br>Estado: Óptimo</div>', unsafe_allow_html=True)
+            with zonas_cols[0]:
+                st.markdown(
+                    f'<div class="sensor-verde"><b>Sector A: {nombres_cultivos[0]}</b><br>Área: {st.session_state.cultivos_asignados[nombres_cultivos[0]]} m²<br>Humedad Suelo: 68%<br>Estado: Óptimo</div>',
+                    unsafe_allow_html=True
+                )
+
         if len(nombres_cultivos) > 1:
-            with zonas_cols[1]: st.markdown(f'<div class="sensor-amarillo"><b>Sector B: {nombres_cultivos[1]}</b><br>Área: {st.session_state.cultivos_asignados[nombres_cultivos[1]]} m²<br>Humedad Suelo: 45%<br>Estado: Estrés leve</div>', unsafe_allow_html=True)
+            with zonas_cols[1]:
+                st.markdown(
+                    f'<div class="sensor-amarillo"><b>Sector B: {nombres_cultivos[1]}</b><br>Área: {st.session_state.cultivos_asignados[nombres_cultivos[1]]} m²<br>Humedad Suelo: 45%<br>Estado: Estrés leve</div>',
+                    unsafe_allow_html=True
+                )
+
         with zonas_cols[2]:
-            st.markdown(f'<div class="sensor-rojo"><b>🚨 Zona de Riesgo</b><br>Humedad Suelo: {"22%" if hum_real > 40 else "15% (CRÍTICO)"}<br>Alerta hídrica<br>Requiere Atención</div>', unsafe_allow_html=True)
+            st.markdown(
+                f'<div class="sensor-rojo"><b>🚨 Zona de Riesgo</b><br>Humedad Suelo: {"22%" if hum_real > 40 else "15% (CRÍTICO)"}<br>Alerta hídrica<br>Requiere Atención</div>',
+                unsafe_allow_html=True
+            )
 
     # ---------------- PESTAÑA 2: DRON SILENCIOSO ----------------
     with tab2:
         st.header("Centro de Mando Logístico VRA")
         col_ctrl, col_map = st.columns([1, 2])
         ruta_calculada, color_ruta = [], "cyan"
-        
+
         with col_ctrl:
             hora_actual = st.slider("Reloj:", 0, 23, 14, format="%d:00 hrs")
-            tipo_mision = st.radio("Acción a ejecutar:", ["Riego de Emergencia", "Nutrición (Proteínas)", "Tratamiento (Anti-plagas)"])
-            zona_objetivo = st.selectbox("Sector Objetivo de Vuelo (Focalizado):", list(zonas_dict.keys()) if zonas_dict else ["Toda la Parcela"])
-            patron_vuelo = st.selectbox("Patrón de Despliegue Táctico:", ["Zig-Zag (Cobertura Total)", "Espiral (Foco Central)", "Perimetral (Bordes)"])
-            
+            tipo_mision = st.radio(
+                "Acción a ejecutar:",
+                ["Riego de Emergencia", "Nutrición (Proteínas)", "Tratamiento (Anti-plagas)"]
+            )
+            zona_objetivo = st.selectbox(
+                "Sector Objetivo de Vuelo (Focalizado):",
+                list(zonas_dict.keys()) if zonas_dict else ["Toda la Parcela"]
+            )
+            patron_vuelo = st.selectbox(
+                "Patrón de Despliegue Táctico:",
+                ["Zig-Zag (Cobertura Total)", "Espiral (Foco Central)", "Perimetral (Bordes)"]
+            )
+
             es_riesgoso = (tipo_mision == "Riego de Emergencia" and 10 <= hora_actual <= 18)
-            boton_deshabilitado = es_riesgoso and not st.checkbox("Declaro entender los riesgos y autorizo.") 
-            
+            boton_deshabilitado = es_riesgoso and not st.checkbox("Declaro entender los riesgos y autorizo.")
+
             if st.button("🚀 Forzar Despliegue Focalizado", type="primary", disabled=boton_deshabilitado, use_container_width=True):
                 area_vuelo = st.session_state.parcela_area if zona_objetivo == "Toda la Parcela" else st.session_state.parcela_area / 3
                 litros_usados = round(area_vuelo * 0.5, 1) if tipo_mision == "Riego de Emergencia" else 0
                 st.session_state.total_litros_hoy += litros_usados
+
                 color_ruta = "cyan" if tipo_mision == "Riego de Emergencia" else ("orange" if tipo_mision == "Nutrición (Proteínas)" else "red")
-                
-                ruta_calculada = calcular_ruta_patron(zonas_dict.get(zona_objetivo, []), patron_vuelo, st.session_state.centro_mapa[0], st.session_state.centro_mapa[1])
-                
+
+                ruta_calculada = calcular_ruta_patron(
+                    zonas_dict.get(zona_objetivo, []),
+                    patron_vuelo,
+                    st.session_state.centro_mapa[0],
+                    st.session_state.centro_mapa[1]
+                )
+
                 with st.spinner(f"Calculando trayectoria para {zona_objetivo}..."):
                     time.sleep(2)
                     st.success(f"✅ Dron en vuelo silencioso. Objetivo: {zona_objetivo}")
-                    if litros_usados > 0: st.info(f"💧 Agua calculada: {litros_usados} L. (Ahorro validado)")
-                    
+                    if litros_usados > 0:
+                        st.info(f"💧 Agua calculada: {litros_usados} L. (Ahorro validado)")
+
                     st.session_state.registro_diario.append({
-                        "Hora": f"{hora_actual}:00", "Misión": tipo_mision, "Objetivo": zona_objetivo,
-                        "Agua Usada": f"{litros_usados} L", "Estado": "Completado"
+                        "Hora": f"{hora_actual}:00",
+                        "Misión": tipo_mision,
+                        "Objetivo": zona_objetivo,
+                        "Agua Usada": f"{litros_usados} L",
+                        "Estado": "Completado"
                     })
-        
+
         with col_map:
             st.markdown("**Monitor de Vuelo: Tratamiento Focalizado (Spot Spraying)**")
-            mapa_dron = folium.Map(location=st.session_state.centro_mapa, zoom_start=15, tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr="Esri", zoom_control=False, scrollWheelZoom=False, dragging=False, touchZoom=False, doubleClickZoom=False)
+
+            mapa_dron = folium.Map(
+                location=st.session_state.centro_mapa,
+                zoom_start=15,
+                tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                attr="Esri",
+                zoom_control=False,
+                scrollWheelZoom=False,
+                dragging=False,
+                touchZoom=False,
+                doubleClickZoom=False
+            )
+
             if "Zona Óptima (Verde)" in zonas_dict:
                 folium.Polygon(locations=zonas_dict["Zona Óptima (Verde)"], color="green", fill=True, fill_color="green", fill_opacity=0.45).add_to(mapa_dron)
                 folium.Polygon(locations=zonas_dict["Zona Media (Amarilla)"], color="yellow", fill=True, fill_color="yellow", fill_opacity=0.45).add_to(mapa_dron)
                 folium.Polygon(locations=zonas_dict["Zona Crítica (Roja)"], color="red", fill=True, fill_color="red", fill_opacity=0.45).add_to(mapa_dron)
+
             elif "Toda la Parcela" in zonas_dict:
                 folium.Polygon(locations=zonas_dict["Toda la Parcela"], color="gray", fill=True, fill_opacity=0.4).add_to(mapa_dron)
+
             if ruta_calculada:
-                plugins.AntPath(locations=ruta_calculada, dash_array=[10, 20], delay=800, color=color_ruta, weight=5, pulse_color='white').add_to(mapa_dron)
+                plugins.AntPath(
+                    locations=ruta_calculada,
+                    dash_array=[10, 20],
+                    delay=800,
+                    color=color_ruta,
+                    weight=5,
+                    pulse_color='white'
+                ).add_to(mapa_dron)
+
             st_folium(mapa_dron, width=700, height=400, returned_objects=[])
 
-    # ---------------- PESTAÑA 3: BITÁCORA Y REPORTE EJECUTIVO (SOLO TWILIO) ----------------
+    # ---------------- PESTAÑA 3: BITÁCORA Y REPORTE EJECUTIVO ----------------
     with tab3:
         st.header("Bitácora de Monitoreo")
+
         if st.session_state.registro_diario:
             st.dataframe(pd.DataFrame(st.session_state.registro_diario), use_container_width=True)
-        else: st.write("Aún no se han registrado operaciones hoy.")
-            
+        else:
+            st.write("Aún no se han registrado operaciones hoy.")
+
         st.markdown("---")
         st.subheader("📲 Exportación de Reporte Oficial")
         st.write("Envíe el resumen gerencial directamente a WhatsApp vía Twilio API.")
-        
+
         vuelos_riego = sum(1 for r in st.session_state.registro_diario if r["Misión"] == "Riego de Emergencia")
         vuelos_nutricion = sum(1 for r in st.session_state.registro_diario if r["Misión"] == "Nutrición (Proteínas)")
         vuelos_plagas = sum(1 for r in st.session_state.registro_diario if r["Misión"] == "Tratamiento (Anti-plagas)")
-        
+
         cultivos_str = ', '.join(st.session_state.cultivos_asignados.keys()) if st.session_state.cultivos_asignados else 'Ninguno'
         alerta_zona = "Requiere Atención" if hum_real > 40 else "CRÍTICO - Alerta Hídrica"
-        
+
         resumen_texto_profesional = f"""*📋 REPORTE EJECUTIVO - ENJAMBRE VRA* 🚁🌱
 -----------------------------------
 *👤 Gerente Agrícola:* {st.session_state.usuario.get('nombre', '')}
@@ -811,13 +1012,16 @@ elif st.session_state.paso == 'dashboard':
 💧 Consumo Hídrico Total: {st.session_state.total_litros_hoy} Litros
 
 _Generado automáticamente por Enjambre VRA._"""
-        
+
         st.text_area("Previsualización del Mensaje:", value=resumen_texto_profesional, height=450, disabled=True)
-        
+
         if st.button("🚀 Enviar Reporte Oficial por Twilio", type="primary", use_container_width=True):
             with st.spinner("Conectando con servidores de Twilio..."):
-                exito, msj = enviar_whatsapp_twilio(resumen_texto_profesional, st.session_state.usuario.get('telefono', ''))
-                if exito: 
+                exito, msj = enviar_whatsapp_twilio(
+                    resumen_texto_profesional,
+                    st.session_state.usuario.get('telefono', '')
+                )
+                if exito:
                     st.success("✅ Mensaje enviado con éxito a tu celular vía API.")
-                else: 
+                else:
                     st.error(f"❌ Falló el envío. Revisa tus Secrets o Sandbox de Twilio: {msj}")
