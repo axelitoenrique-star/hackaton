@@ -257,7 +257,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- CURSOR PERSONALIZADO: HORMIGA ANIMADA ---
+# --- CURSOR PERSONALIZADO: HORMIGA REALISTA ANIMADA ---
 def activar_cursor_hormiga():
     components.html(
         """
@@ -272,151 +272,219 @@ def activar_cursor_hormiga():
                     cursor: none !important;
                 }
 
-                #cursor-hormiga {
+                #cursor-hormiga-realista {
                     position: fixed;
-                    width: 46px;
-                    height: 34px;
+                    width: 58px;
+                    height: 58px;
                     pointer-events: none;
                     z-index: 999999999;
-                    transform: translate(-50%, -50%);
-                    transition: transform 0.04s linear;
+                    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+                    transform-origin: center center;
+                    transition: transform 0.05s linear;
+                    filter: drop-shadow(0 3px 4px rgba(0,0,0,0.35));
                 }
 
-                .ant-body {
-                    position: absolute;
-                    width: 19px;
-                    height: 13px;
-                    background: #1a1a1a;
-                    border-radius: 50%;
-                    left: 13px;
-                    top: 10px;
-                    box-shadow:
-                        -11px 1px 0 #1a1a1a,
-                        10px 0px 0 #1a1a1a;
+                #cursor-hormiga-realista svg {
+                    width: 100%;
+                    height: 100%;
+                    overflow: visible;
                 }
 
-                .ant-head {
-                    position: absolute;
-                    width: 13px;
-                    height: 13px;
-                    background: #0f0f0f;
-                    border-radius: 50%;
-                    left: 32px;
-                    top: 10px;
-                }
-
-                .ant-eye {
-                    position: absolute;
-                    width: 3px;
-                    height: 3px;
-                    background: #ffffff;
-                    border-radius: 50%;
-                    left: 39px;
-                    top: 13px;
-                }
-
-                .ant-leg {
-                    position: absolute;
-                    width: 18px;
-                    height: 3px;
-                    background: #0f0f0f;
-                    border-radius: 999px;
+                .ant-leg-left-1, .ant-leg-left-2, .ant-leg-left-3,
+                .ant-leg-right-1, .ant-leg-right-2, .ant-leg-right-3,
+                .ant-antenna-left, .ant-antenna-right {
+                    transform-box: fill-box;
                     transform-origin: center;
-                    animation: moverPata 0.24s infinite alternate ease-in-out;
                 }
 
-                .leg1 { left: 5px; top: 7px; transform: rotate(-35deg); animation-delay: 0s; }
-                .leg2 { left: 9px; top: 17px; transform: rotate(0deg); animation-delay: 0.08s; }
-                .leg3 { left: 5px; top: 27px; transform: rotate(35deg); animation-delay: 0.16s; }
-
-                .leg4 { left: 24px; top: 7px; transform: rotate(35deg); animation-delay: 0.16s; }
-                .leg5 { left: 21px; top: 17px; transform: rotate(0deg); animation-delay: 0.08s; }
-                .leg6 { left: 24px; top: 27px; transform: rotate(-35deg); animation-delay: 0s; }
-
-                .ant-antenna {
-                    position: absolute;
-                    width: 14px;
-                    height: 2px;
-                    background: #0f0f0f;
-                    border-radius: 999px;
-                    left: 40px;
-                    top: 9px;
-                    transform-origin: left center;
+                .ant-leg-left-1 {
+                    animation: legLeftA 0.22s infinite alternate ease-in-out;
                 }
 
-                .antenna1 {
-                    transform: rotate(-35deg);
-                    animation: moverAntena1 0.45s infinite alternate ease-in-out;
+                .ant-leg-left-2 {
+                    animation: legLeftB 0.24s infinite alternate ease-in-out;
                 }
 
-                .antenna2 {
-                    top: 21px;
-                    transform: rotate(35deg);
-                    animation: moverAntena2 0.45s infinite alternate ease-in-out;
+                .ant-leg-left-3 {
+                    animation: legLeftA 0.20s infinite alternate ease-in-out;
+                    animation-delay: 0.05s;
                 }
 
-                @keyframes moverPata {
-                    0% {
-                        transform: rotate(-25deg) translateX(0px);
-                    }
-                    100% {
-                        transform: rotate(25deg) translateX(2px);
-                    }
+                .ant-leg-right-1 {
+                    animation: legRightA 0.22s infinite alternate ease-in-out;
                 }
 
-                @keyframes moverAntena1 {
-                    0% {
-                        transform: rotate(-25deg);
-                    }
-                    100% {
-                        transform: rotate(-52deg);
-                    }
+                .ant-leg-right-2 {
+                    animation: legRightB 0.24s infinite alternate ease-in-out;
                 }
 
-                @keyframes moverAntena2 {
-                    0% {
-                        transform: rotate(25deg);
-                    }
-                    100% {
-                        transform: rotate(52deg);
-                    }
+                .ant-leg-right-3 {
+                    animation: legRightA 0.20s infinite alternate ease-in-out;
+                    animation-delay: 0.05s;
+                }
+
+                .ant-antenna-left {
+                    animation: antennaLeft 0.45s infinite alternate ease-in-out;
+                }
+
+                .ant-antenna-right {
+                    animation: antennaRight 0.45s infinite alternate ease-in-out;
+                }
+
+                @keyframes legLeftA {
+                    from { transform: rotate(-10deg) translateY(0px); }
+                    to   { transform: rotate(16deg) translateY(1px); }
+                }
+
+                @keyframes legLeftB {
+                    from { transform: rotate(8deg) translateY(0px); }
+                    to   { transform: rotate(-15deg) translateY(1px); }
+                }
+
+                @keyframes legRightA {
+                    from { transform: rotate(10deg) translateY(0px); }
+                    to   { transform: rotate(-16deg) translateY(1px); }
+                }
+
+                @keyframes legRightB {
+                    from { transform: rotate(-8deg) translateY(0px); }
+                    to   { transform: rotate(15deg) translateY(1px); }
+                }
+
+                @keyframes antennaLeft {
+                    from { transform: rotate(-10deg); }
+                    to   { transform: rotate(12deg); }
+                }
+
+                @keyframes antennaRight {
+                    from { transform: rotate(10deg); }
+                    to   { transform: rotate(-12deg); }
                 }
             `;
             doc.head.appendChild(style);
         }
 
-        if (!doc.getElementById("cursor-hormiga")) {
+        const oldAnt = doc.getElementById("cursor-hormiga");
+        if (oldAnt) {
+            oldAnt.remove();
+        }
+
+        if (!doc.getElementById("cursor-hormiga-realista")) {
             const ant = doc.createElement("div");
-            ant.id = "cursor-hormiga";
+            ant.id = "cursor-hormiga-realista";
             ant.innerHTML = `
-                <div class="ant-leg leg1"></div>
-                <div class="ant-leg leg2"></div>
-                <div class="ant-leg leg3"></div>
-                <div class="ant-leg leg4"></div>
-                <div class="ant-leg leg5"></div>
-                <div class="ant-leg leg6"></div>
-                <div class="ant-body"></div>
-                <div class="ant-head"></div>
-                <div class="ant-eye"></div>
-                <div class="ant-antenna antenna1"></div>
-                <div class="ant-antenna antenna2"></div>
+                <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="antBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#2b1c14"/>
+                            <stop offset="50%" stop-color="#1b120d"/>
+                            <stop offset="100%" stop-color="#090807"/>
+                        </linearGradient>
+
+                        <linearGradient id="antHeadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#221712"/>
+                            <stop offset="100%" stop-color="#080707"/>
+                        </linearGradient>
+
+                        <radialGradient id="antShine" cx="35%" cy="25%" r="65%">
+                            <stop offset="0%" stop-color="rgba(255,255,255,0.18)"/>
+                            <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+                        </radialGradient>
+                    </defs>
+
+                    <!-- Patas izquierdas -->
+                    <g class="ant-leg-left-1" stroke="#120d0a" stroke-width="4.3" stroke-linecap="round" fill="none">
+                        <path d="M46 48 C31 36, 22 31, 13 28" />
+                        <path d="M43 50 C28 47, 18 47, 10 48" />
+                    </g>
+
+                    <g class="ant-leg-left-2" stroke="#120d0a" stroke-width="4.3" stroke-linecap="round" fill="none">
+                        <path d="M48 61 C32 64, 22 67, 12 72" />
+                    </g>
+
+                    <g class="ant-leg-left-3" stroke="#120d0a" stroke-width="4.3" stroke-linecap="round" fill="none">
+                        <path d="M53 73 C39 82, 28 87, 18 93" />
+                    </g>
+
+                    <!-- Patas derechas -->
+                    <g class="ant-leg-right-1" stroke="#120d0a" stroke-width="4.3" stroke-linecap="round" fill="none">
+                        <path d="M73 47 C89 35, 98 30, 107 27" />
+                        <path d="M76 50 C91 46, 101 46, 110 47" />
+                    </g>
+
+                    <g class="ant-leg-right-2" stroke="#120d0a" stroke-width="4.3" stroke-linecap="round" fill="none">
+                        <path d="M72 61 C88 65, 98 68, 108 72" />
+                    </g>
+
+                    <g class="ant-leg-right-3" stroke="#120d0a" stroke-width="4.3" stroke-linecap="round" fill="none">
+                        <path d="M67 73 C82 82, 93 87, 103 94" />
+                    </g>
+
+                    <!-- Antenas -->
+                    <g class="ant-antenna-left" stroke="#120d0a" stroke-width="3.2" stroke-linecap="round" fill="none">
+                        <path d="M83 44 C95 34, 102 26, 106 16" />
+                    </g>
+
+                    <g class="ant-antenna-right" stroke="#120d0a" stroke-width="3.2" stroke-linecap="round" fill="none">
+                        <path d="M88 49 C101 43, 109 38, 115 30" />
+                    </g>
+
+                    <!-- Abdomen -->
+                    <ellipse cx="36" cy="58" rx="18" ry="22" fill="url(#antBodyGrad)" />
+                    <ellipse cx="32" cy="50" rx="7" ry="10" fill="url(#antShine)" />
+
+                    <!-- Tórax -->
+                    <ellipse cx="60" cy="58" rx="15" ry="17" fill="url(#antBodyGrad)" />
+                    <ellipse cx="56" cy="52" rx="5" ry="7" fill="url(#antShine)" />
+
+                    <!-- Cabeza -->
+                    <ellipse cx="84" cy="50" rx="12" ry="11" fill="url(#antHeadGrad)" />
+                    <ellipse cx="80" cy="46" rx="4" ry="5" fill="url(#antShine)" />
+
+                    <!-- Mandíbulas -->
+                    <path d="M95 48 C101 46, 105 44, 108 41" stroke="#120d0a" stroke-width="2.4" stroke-linecap="round" fill="none" />
+                    <path d="M95 52 C101 54, 105 56, 108 59" stroke="#120d0a" stroke-width="2.4" stroke-linecap="round" fill="none" />
+
+                    <!-- Uniones -->
+                    <path d="M50 58 C53 56, 56 56, 59 58" stroke="#0b0908" stroke-width="3" stroke-linecap="round" />
+                    <path d="M72 55 C75 52, 78 51, 82 50" stroke="#0b0908" stroke-width="3" stroke-linecap="round" />
+                </svg>
             `;
             doc.body.appendChild(ant);
         }
 
-        const ant = doc.getElementById("cursor-hormiga");
+        const ant = doc.getElementById("cursor-hormiga-realista");
+
+        let prevX = 0;
+        let prevY = 0;
+        let currentScale = 1;
 
         doc.addEventListener("mousemove", function(e) {
+            const dx = e.clientX - prevX;
+            const dy = e.clientY - prevY;
+
+            let angle = 0;
+
+            if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
+                angle = Math.atan2(dy, dx) * 180 / Math.PI;
+            }
+
             ant.style.left = e.clientX + "px";
             ant.style.top = e.clientY + "px";
+            ant.style.transform = `translate(-50%, -50%) rotate(${angle}deg) scale(${currentScale})`;
+
+            prevX = e.clientX;
+            prevY = e.clientY;
         });
 
         doc.addEventListener("mousedown", function() {
-            ant.style.transform = "translate(-50%, -50%) scale(0.82)";
+            currentScale = 0.88;
+            ant.style.transform = ant.style.transform.replace(/scale\\([^)]*\\)/, `scale(${currentScale})`);
         });
 
         doc.addEventListener("mouseup", function() {
-            ant.style.transform = "translate(-50%, -50%) scale(1)";
+            currentScale = 1;
+            ant.style.transform = ant.style.transform.replace(/scale\\([^)]*\\)/, `scale(${currentScale})`);
         });
         </script>
         """,
