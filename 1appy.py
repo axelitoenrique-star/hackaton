@@ -14,7 +14,7 @@ from twilio.rest import Client
 # --- 1. CONFIGURACIÓN DE LA PÁGINA ---
 st.set_page_config(page_title="Enjambre VRA | Plataforma Integral", page_icon="🚁", layout="wide")
 
-# --- FUNCIÓN PARA CARGAR IMAGEN DE FONDO / SPRITE ---
+# --- FUNCIÓN PARA CARGAR IMAGEN EN BASE64 ---
 def cargar_imagen_base64(ruta_imagen):
     try:
         with open(ruta_imagen, "rb") as archivo:
@@ -31,9 +31,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- DISEÑO VISUAL: FONDO AGRÍCOLA ANIMADO ---
+# --- DISEÑO VISUAL: FONDO AGRÍCOLA ANIMADO + PNG DE HORMIGA ---
 fondo_base64 = cargar_imagen_base64("assets/fondo_campo.jpg")
-sprite_hormiga_base64 = cargar_imagen_base64("assets/spritesheet.png")
+hormiga_cursor_base64 = cargar_imagen_base64("assets/hormiga_cursor.png")
 
 if fondo_base64:
     fondo_css = f"""
@@ -258,34 +258,28 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- CURSOR PERSONALIZADO: HORMIGA CON SPRITE SHEET ---
+# --- CURSOR PERSONALIZADO: HORMIGA COMPLETA PNG ---
 def activar_cursor_hormiga():
-    if not sprite_hormiga_base64:
+    if not hormiga_cursor_base64:
         return
 
     html_code = """
     <script>
     const doc = window.parent.document;
-    const spriteData = "data:image/png;base64,__SPRITE_BASE64__";
+    const antImage = "data:image/png;base64,__ANT_BASE64__";
 
-    const FRAME_SIZE = 256;
-    const COLS = 4;
-    const ROWS = 3;
-    const TOTAL_FRAMES = 11;
-    const DISPLAY_SIZE = 78;
-
-    if (!doc.getElementById("cursor-hormiga-sprite-style")) {
+    if (!doc.getElementById("cursor-hormiga-png-style")) {
         const style = doc.createElement("style");
-        style.id = "cursor-hormiga-sprite-style";
+        style.id = "cursor-hormiga-png-style";
         style.innerHTML = `
             body, body * {
                 cursor: none !important;
             }
 
-            #cursor-hormiga-sprite {
+            #cursor-hormiga-png {
                 position: fixed;
-                width: ${DISPLAY_SIZE}px;
-                height: ${DISPLAY_SIZE}px;
+                width: 86px;
+                height: 86px;
                 pointer-events: none;
                 z-index: 999999999;
                 transform: translate(-50%, -50%) rotate(0deg) scale(1);
@@ -293,44 +287,60 @@ def activar_cursor_hormiga():
                 will-change: transform, left, top;
             }
 
-            #cursor-hormiga-sprite .ant-shadow {
+            #cursor-hormiga-png .ant-shadow {
                 position: absolute;
-                left: 18px;
-                bottom: 4px;
+                left: 23px;
+                bottom: 8px;
                 width: 42px;
-                height: 12px;
-                background: radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.18) 55%, rgba(0,0,0,0) 100%);
-                filter: blur(4px);
+                height: 13px;
+                background: radial-gradient(
+                    ellipse at center,
+                    rgba(0,0,0,0.50) 0%,
+                    rgba(0,0,0,0.22) 55%,
+                    rgba(0,0,0,0) 100%
+                );
+                filter: blur(5px);
                 opacity: 0.55;
-                animation: antShadowPulse 0.45s infinite alternate ease-in-out;
+                animation: sombraHormiga 0.35s infinite alternate ease-in-out;
             }
 
-            #cursor-hormiga-sprite .ant-core {
+            #cursor-hormiga-png .ant-core {
                 position: absolute;
                 inset: 0;
-                background-image: url("${spriteData}");
+                background-image: url("${antImage}");
                 background-repeat: no-repeat;
-                background-size: ${COLS * DISPLAY_SIZE}px ${ROWS * DISPLAY_SIZE}px;
-                image-rendering: auto;
+                background-position: center center;
+                background-size: contain;
                 filter:
-                    drop-shadow(0 3px 3px rgba(0,0,0,0.35))
-                    drop-shadow(0 8px 10px rgba(0,0,0,0.18));
-                animation: antFloat 0.34s infinite alternate ease-in-out;
+                    drop-shadow(0 3px 4px rgba(0,0,0,0.42))
+                    drop-shadow(0 8px 12px rgba(0,0,0,0.24));
+                animation: caminarHormiga 0.32s infinite alternate ease-in-out;
             }
 
-            @keyframes antFloat {
-                0%   { transform: translateY(0px); }
-                100% { transform: translateY(-2px); }
+            @keyframes caminarHormiga {
+                0% {
+                    transform: translateY(0px) rotate(-1.2deg);
+                }
+                100% {
+                    transform: translateY(-2px) rotate(1.2deg);
+                }
             }
 
-            @keyframes antShadowPulse {
-                0%   { transform: scaleX(1); opacity: 0.55; }
-                100% { transform: scaleX(0.92); opacity: 0.35; }
+            @keyframes sombraHormiga {
+                0% {
+                    transform: scaleX(1);
+                    opacity: 0.55;
+                }
+                100% {
+                    transform: scaleX(0.88);
+                    opacity: 0.35;
+                }
             }
         `;
         doc.head.appendChild(style);
     }
 
+    // eliminar cursores antiguos si existen
     const old1 = doc.getElementById("cursor-hormiga");
     if (old1) old1.remove();
 
@@ -340,9 +350,12 @@ def activar_cursor_hormiga():
     const old3 = doc.getElementById("cursor-hormiga-premium");
     if (old3) old3.remove();
 
-    if (!doc.getElementById("cursor-hormiga-sprite")) {
+    const old4 = doc.getElementById("cursor-hormiga-sprite");
+    if (old4) old4.remove();
+
+    if (!doc.getElementById("cursor-hormiga-png")) {
         const ant = doc.createElement("div");
-        ant.id = "cursor-hormiga-sprite";
+        ant.id = "cursor-hormiga-png";
         ant.innerHTML = `
             <div class="ant-shadow"></div>
             <div class="ant-core"></div>
@@ -350,33 +363,14 @@ def activar_cursor_hormiga():
         doc.body.appendChild(ant);
     }
 
-    const ant = doc.getElementById("cursor-hormiga-sprite");
-    const antCore = ant.querySelector(".ant-core");
+    const ant = doc.getElementById("cursor-hormiga-png");
 
-    let prevX = 0;
-    let prevY = 0;
-    let currentScale = 1;
-    let currentAngle = 0;
-    let frameIndex = 0;
+    if (!doc.body.dataset.antPngCursorBound) {
+        let prevX = 0;
+        let prevY = 0;
+        let currentScale = 1;
+        let currentAngle = 0;
 
-    function setFrame(index) {
-        const col = index % COLS;
-        const row = Math.floor(index / COLS);
-        antCore.style.backgroundPosition = `${-col * DISPLAY_SIZE}px ${-row * DISPLAY_SIZE}px`;
-    }
-
-    setFrame(0);
-
-    if (window.antSpriteInterval) {
-        clearInterval(window.antSpriteInterval);
-    }
-
-    window.antSpriteInterval = setInterval(() => {
-        frameIndex = (frameIndex + 1) % TOTAL_FRAMES;
-        setFrame(frameIndex);
-    }, 90);
-
-    if (!doc.body.dataset.antSpriteCursorBound) {
         doc.addEventListener("mousemove", function(e) {
             const dx = e.clientX - prevX;
             const dy = e.clientY - prevY;
@@ -394,20 +388,20 @@ def activar_cursor_hormiga():
         });
 
         doc.addEventListener("mousedown", function() {
-            currentScale = 0.88;
+            currentScale = 0.86;
         });
 
         doc.addEventListener("mouseup", function() {
             currentScale = 1;
         });
 
-        doc.body.dataset.antSpriteCursorBound = "true";
+        doc.body.dataset.antPngCursorBound = "true";
     }
     </script>
     """
 
     components.html(
-        html_code.replace("__SPRITE_BASE64__", sprite_hormiga_base64),
+        html_code.replace("__ANT_BASE64__", hormiga_cursor_base64),
         height=0,
         width=0
     )
@@ -689,12 +683,13 @@ elif st.session_state.paso == 'dashboard':
                 plugins.AntPath(locations=ruta_calculada, dash_array=[10, 20], delay=800, color=color_ruta, weight=5, pulse_color='white').add_to(mapa_dron)
             st_folium(mapa_dron, width=700, height=400, returned_objects=[])
 
-    # ---------------- PESTAÑA 3: BITÁCORA Y REPORTE EJECUTIVO (SOLO TWILIO) ----------------
+    # ---------------- PESTAÑA 3: BITÁCORA Y REPORTE EJECUTIVO ----------------
     with tab3:
         st.header("Bitácora de Monitoreo")
         if st.session_state.registro_diario:
             st.dataframe(pd.DataFrame(st.session_state.registro_diario), use_container_width=True)
-        else: st.write("Aún no se han registrado operaciones hoy.")
+        else: 
+            st.write("Aún no se han registrado operaciones hoy.")
             
         st.markdown("---")
         st.subheader("📲 Exportación de Reporte Oficial")
