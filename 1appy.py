@@ -51,15 +51,15 @@ def obtener_clima_real(lat, lon):
 
 # NUEVA FUNCIÓN: ENVÍO TWILIO
 def enviar_whatsapp_twilio(mensaje_texto, destino):
+    # Solo estas 3 líneas para las credenciales:
+    account_sid = st.secrets["TWILIO_ACCOUNT_SID"]
+    auth_token = st.secrets["TWILIO_AUTH_TOKEN"]
+    remitente_twilio = st.secrets["TWILIO_PHONE"] 
+    
     try:
-        # Se asume que configurarás estos en 'Settings > Secrets' de Streamlit Cloud
-        account_sid = st.secrets["TWILIO_ACCOUNT_SID"]
-        auth_token = st.secrets["TWILIO_AUTH_TOKEN"]
-        remitente = st.secrets["TWILIO_PHONE"] # Ej: 'whatsapp:+14155238886'
-        
         client = Client(account_sid, auth_token)
         message = client.messages.create(
-            from_=remitente,
+            from_=remitente_twilio,
             body=mensaje_texto,
             to=f'whatsapp:+{destino}'
         )
